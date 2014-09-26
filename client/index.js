@@ -32,6 +32,15 @@ if (url.query.viewer) {
 }
 else {
 
+  var $timeline = $("#timeline");
+
+  function renderTimeline (tl) {
+    $timeline.empty();
+    $timeline.append(tl.map(function (item) {
+      return $('<img src="'+item.image+'" />');
+    }));
+  }
+
   Q.fcall(function () {
 
     if (url.query.edit) {
@@ -50,7 +59,7 @@ else {
   })
   .then(function (diaporama) {
 
-    console.log(diaporama);
+    renderTimeline(diaporama.timeline);
 
     // Here is the editor code
     function onImageUploaded (url) {
@@ -63,6 +72,7 @@ else {
         }
       };
       diaporama.timeline.push(item);
+      renderTimeline(diaporama.timeline);
     }
     function onImageError (err) {
       console.log(err);

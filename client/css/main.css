@@ -2,16 +2,27 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-  .submit-button {
-    display: inline-block;
-    background: #3ba0ff;
-    color: #fff;
-    -webkit-border-radius: 3px;
-    border-radius: 3px;
-    padding: 15px 50px;
-    font-weight: 400;
-    text-decoration: none;
-    font-size: 14px;
-    transition: .1s;
-    margin: 30px;
-  }
+.submit-button {
+  display: inline-block;
+  background: #3ba0ff;
+  color: #fff;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  padding: 15px 50px;
+  font-weight: 400;
+  text-decoration: none;
+  font-size: 14px;
+  transition: .1s;
+  margin: 30px;
+}
+
+#timeline {
+  height: 200px;
+  width: 100%;
+  overflow: scroll;
+  white-space: nowrap;
+}
+#timeline img {
+  height: 200px;
+  display: inline;
+}
