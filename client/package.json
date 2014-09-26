@@ -23,6 +23,8 @@
   },
   "dependencies": {
     "bezier-easing": "^0.4.3",
+    "component-emitter": "^1.1.3",
+    "dropzone": "^3.8.4",
     "glsl-transition": "^0.6.6",
     "glsl-transitions": "^2014.9.26",
     "jquery": "^2.1.1",
