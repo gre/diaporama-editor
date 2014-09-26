@@ -61,6 +61,7 @@ else {
 
     if (diaporama.id) {
       $("#view-diaporama").attr("href", "/?viewer="+diaporama.id);
+      $("#create-diaporama").text("Fork");
     }
     else {
       $("#view-diaporama").remove();
