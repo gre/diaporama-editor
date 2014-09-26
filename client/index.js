@@ -13,6 +13,7 @@ if (url.query.viewer) {
   // HERE is the viewer code
   var id = url.query.viewer;
 
+  document.body.innerHTML = "";
   Qajax({
     url: saveSlideshowServerUrl + "/json/" + id,
     method: "GET"
@@ -24,7 +25,6 @@ if (url.query.viewer) {
       var canvas = document.createElement("canvas");
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-      document.body.innerHTML = "";
       document.body.style.padding = "0px";
       document.body.style.margin = "0px";
       document.body.style.overflow = "hidden";
