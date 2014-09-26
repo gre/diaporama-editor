@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Diaporama!</title>
+    <link rel="stylesheet" type="text/css" href="css/dropzone.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+  </head>
+
+  <body>
+
+  <form action="/file-upload"
+      class="dropzone"
+      id="dropzone"></form>
+
+  <a href="#" type="submit" id="upload-all" class="submit-button">Upload Photos</a>
+
+  <div id="timeline">
+    
+  </div>
+
+  <a href="#" id="create-diaporama" class="submit-button">Create</a>
+  <a href="#" target="_blank" id="view-diaporama" class="view-button">View</a>
+
+
+
+  <script type="text/javascript">
+;(function live() { (function liveReloadCode(lastUpdate, updateRate) {
+  setTimeout(iter, updateRate)
+
+  function iter() {
+    var xhr = new XMLHttpRequest()
+
+    xhr.open('GET', '/-/live-reload')
+    xhr.onreadystatechange = function() {
+      if(xhr.readyState !== 4) {
+        return
+      }
+
+      try {
+        var change = JSON.parse(xhr.responseText).lastUpdate
+
+        if(lastUpdate < change) {
+          window.location.reload()
+
+          return
+        }
+      } catch(err) {
+      }
+
+      xhr =
+      xhr.onreadystatechange = null
+      setTimeout(iter, updateRate)
+    }
+
+    xhr.send(null)
+  }
+}
+
+)(1411743975379,1000) })()
+</script>
+<script src="http://connect.soundcloud.com/sdk.js"></script>
+  <script src="index.js" type="text/javascript"></script>
+  </body>
+</html>
+
