@@ -37,6 +37,7 @@ module.exports = function (onImageUploaded, onImageError) {
         },
         success: function(data) {
           imgurDropzone.emit("success", file, "data", null);
+          imgurDropzone.removeFile(file);
           onImageUploaded(data.data.link);
 
         },
@@ -55,6 +56,27 @@ module.exports = function (onImageUploaded, onImageError) {
     for(var i=0; i<files.length; i++) {
       uploadToImgur(files[i]);
     }
+  });
+
+  $("#upload-all").click(function (e) {
+    var files = imgurDropzone.getQueuedFiles();
+    for(var i=0; i<files.length; i++) {
+      uploadToImgur(files[i]);
+    }
+  });
+
+  $("#dropzone").on('dragover', function(e) {
+    e.preventDefault();
+  });
+
+  $("#dropzone").on('drop', function(e) {
+    e.preventDefault();
+    e.originalEvent.dataTransfer.items[0].getAsString(function(url) {
+      onImageUploaded(url);
+    });
+    console.log("e.originalEvent.dataTransfer.items[0].", e.originalEvent.dataTransfer.items[0]);
+    var hey = e.originalEvent.dataTransfer.items[0];
+    console.log("e.originalEvent.dataTransfer.items[0] 2", hey);
   });
 
 };
