@@ -37,7 +37,7 @@ module.exports = function (onImageUploaded, onImageError) {
         },
         success: function(data) {
           imgurDropzone.emit("success", file, "data", null);
-          onImageUploaded(data);
+          onImageUploaded(data.data.link);
 
         },
         failure: function(msg) {

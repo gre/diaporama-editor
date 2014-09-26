@@ -53,9 +53,9 @@ else {
     console.log(diaporama);
 
     // Here is the editor code
-    function onImageUploaded (res) {
+    function onImageUploaded (url) {
       var item = {
-        image: res.data.link,
+        image: url,
         duration: 3000,
         transitionNext: {
           name: GlslTransitions[Math.floor(Math.random()*GlslTransitions.length)].name,
