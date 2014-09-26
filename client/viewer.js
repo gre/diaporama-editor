@@ -3,6 +3,7 @@ var Qimage = require("qimage");
 var Qajax = require("qajax");
 var GlslTransition = require("glsl-transition");
 var GlslTransitions = require("glsl-transitions");
+var BezierEasing = require("bezier-easing");
 
 function findTransitionByName (name) {
   for (var i=0; i<GlslTransitions.length; ++i) {
@@ -89,6 +90,7 @@ Viewer.prototype = {
       { t: this.identity, uniforms: {} };
     var transitionDuration = transitionNext && transitionNext.duration || 0;
     var transitionUniforms = transitionNext && transitionNext.uniforms || {};
+    var transitionEasing = BezierEasing.apply(null, transitionNext && transitionNext.easing || [0, 0, 1, 1]);
 
     return Q.all([
       this.images[data.timeline[from].image],
@@ -97,7 +99,7 @@ Viewer.prototype = {
     .delay(itemDuration)
     .spread(function (fromImage, toImage) {
       if (transitionDuration)
-        return transition.t(extend({ from: fromImage, to: toImage }, transitionUniforms, transition.uniforms), transitionDuration);
+        return transition.t(extend({ from: fromImage, to: toImage }, transition.uniforms, transitionUniforms), transitionDuration, transitionEasing);
       else
         return self.displayImage(toImage);
     })

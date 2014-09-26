@@ -15,7 +15,7 @@
       "duration": 5000,
       "transitionNext": {
         "name": "directionalwipe",
-        "duration": 1000,
+        "duration": 2000,
         "uniforms": {
           "direction": [1, 0]
         },
@@ -24,7 +24,15 @@
     },
     {
       "image": "https://i.imgur.com/EtR2qn4.png",
-      "duration": 2000
+      "duration": 2000,
+      "transitionNext": {
+        "name": "cube",
+        "duration": 2000,
+        "uniforms": {
+          "unzoom": 1.5
+        },
+        "easing": [0.00, 0.00, 0.58, 1.00]
+      }
     }
   ]
 }
