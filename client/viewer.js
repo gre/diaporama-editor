@@ -4,6 +4,14 @@ var Qajax = require("qajax");
 var GlslTransition = require("glsl-transition");
 var GlslTransitions = require("glsl-transitions");
 
+function findTransitionByName (name) {
+  for (var i=0; i<GlslTransitions.length; ++i) {
+    if (GlslTransitions[i].name === name) {
+      return GlslTransitions[i];
+    }
+  }
+}
+
 function extend (obj) {
   var source, prop;
   for (var i = 1, length = arguments.length; i < length; i++) {
@@ -33,8 +41,14 @@ function Viewer (json, canvas) {
   this.transitions = {};
   json.timeline.forEach(function (item) {
     var name = item.transitionNext && item.transitionNext.name;
-    if (name && !(name in this.transitions) && (name in GlslTransitions)) {
-      this.transitions[name] = this.T(GlslTransitions[name]);
+    if (name && !(name in this.transitions)) {
+      var transitionObject = findTransitionByName(name);
+      if (transitionObject) {
+        this.transitions[name] = {
+          t: this.T(transitionObject.glsl),
+          uniforms: transitionObject.uniforms
+        };
+      }
     }
   }, this);
   this._preloadAudio();
@@ -72,19 +86,18 @@ Viewer.prototype = {
     var transitionNext = data.timeline[from].transitionNext;
     var transition = transitionNext && transitionNext.name ?
       this.transitions[transitionNext.name] :
-      this.identity;
-    console.log(transitionNext, transition);
+      { t: this.identity, uniforms: {} };
     var transitionDuration = transitionNext && transitionNext.duration || 0;
     var transitionUniforms = transitionNext && transitionNext.uniforms || {};
 
-    console.log(from, "->", to);
+    console.log(transition);
 
     return Q.all([
       this.images[data.timeline[from].image],
       this.images[data.timeline[to].image]
     ])
     .spread(function (fromImage, toImage) {
-      return transition(extend({ from: fromImage, to: toImage }, transitionUniforms), transitionDuration);
+      return transition.t(extend({ from: fromImage, to: toImage }, transitionUniforms, transition.uniforms), transitionDuration);
     })
     .delay(itemDuration)
     .then(function () {
