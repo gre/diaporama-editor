@@ -11,28 +11,41 @@ import models._
 
 object Application extends Controller {
 
+  def store = WithCORS {
+    Action.async(jsonObjectParser) { implicit req =>
+      Document.store(req.body) map { doc =>
+        Ok(Json.obj("id" -> doc.id))
+      }
+    }
+  }
+
+  def update(id: String) = WithCORS {
+    Action.async(jsonObjectParser) { implicit req =>
+      Document.update(Document.ID(id), req.body) map {
+        case Some(doc) => Ok(Json.obj("id" -> doc.id))
+        case None => NotFound(Json.obj("error" -> s"id '$id' not found"))
+      }
+    }
+  }
+
+  def get(id: String) = WithCORS {
+    Action.async { implicit req =>
+      Document.get(Document.ID(id)) map {
+        case Some(doc) => Ok(Json.toJson(doc))
+        case None => NotFound(Json.obj("error" -> s"id '$id' not found"))
+      }
+    }
+  }
+
   val jsonObjectParser = parse.json(__.read[JsObject])
 
-  def store = Action.async(jsonObjectParser) { implicit req =>
-    Document.store(req.body) map { doc =>
-      Ok(Json.obj("id" -> doc.id))
+  def WithCORS(action: => EssentialAction): EssentialAction = {
+    EssentialAction { request =>
+      action()(request) map { result =>
+        result withHeaders ("Access-Control-Allow-Origin" -> "*")
+      }
     }
   }
-
-  def update(id: String) = Action.async(jsonObjectParser) { implicit req =>
-    Document.update(Document.ID(id), req.body) map {
-      case Some(doc) => Ok(Json.obj("id" -> doc.id))
-      case None => NotFound(Json.obj("error" -> s"id '$id' not found"))
-    }
-  }
-
-  def get(id: String) = Action.async { implicit req =>
-    Document.get(Document.ID(id)) map {
-      case Some(doc) => Ok(Json.toJson(doc))
-      case None => NotFound(Json.obj("error" -> s"id '$id' not found"))
-    }
-  }
-
 
   implicit val documentIdWrites = Writes[Document.ID] { id => JsString(id.intern) }
   implicit val documentWrites = Writes[Document] { doc =>
