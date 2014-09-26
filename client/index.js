@@ -1,6 +1,7 @@
 var GlslTransition = require("glsl-transition");
 var GlslTransitions = require("glsl-transitions");
 var Q = require("q");
+var $ = require("jquery");
 var Qajax = require("qajax");
 var dragdrop = require("./dragdrop");
 var Viewer = require("./viewer");
@@ -26,8 +27,41 @@ if (url.query.viewer) {
     .done();
 }
 else {
+  var diaporama = {
+    loop: true,
+    music: "https://soundcloud.com/gonegirlsoundtrack/sugar-storm",
+    timeline: []
+  };
+
   // Here is the editor code
-  console.log(dragdrop());
+  function onImageUploaded (res) {
+    var item = {
+      image: res.data.link,
+      duration: 3000,
+      transitionNext: {
+        name: GlslTransitions[Math.floor(Math.random()*GlslTransitions.length)].name,
+        duration: 1500
+      }
+    };
+    diaporama.timeline.push(item);
+  }
+  function onImageError (err) {
+    console.log(err);
+  }
+  dragdrop(onImageUploaded, onImageError);
+
+  $("#create-button").click(function () {
+    Qajax({
+      method: "POST",
+      url: url + "/json",
+      data: diaporama
+    })
+      .then(Qajax.filterSuccess)
+      .then(Qajax.toJSON)
+      .then(function (result) {
+        console.log(result);
+      });
+  });
 }
 
 

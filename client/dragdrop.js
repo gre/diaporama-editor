@@ -1,7 +1,9 @@
 var Dropzone  = require("./lib/dropzone");
 var $         = require("jquery");
 
-module.exports = function() {
+module.exports = function (onImageUploaded, onImageError) {
+
+  var imgurDropzone;
 
   Dropzone.options.dropzone = { // The camelized version of the ID of the form element
     autoProcessQueue: false, /* we want to handle uploads ourselves */
@@ -10,8 +12,7 @@ module.exports = function() {
     maxFiles: 25,
     /* The setting up of the dropzone */
     init: function() {
-      /* storing it in window like a champ */
-      window.imgurDropzone = this;
+      imgurDropzone = this;
     }
   };
 
@@ -33,12 +34,13 @@ module.exports = function() {
             "image": image
         },
         success: function(data) {
-          window.imgurDropzone.emit("success", file, "data", null);
-          console.log(data);
+          imgurDropzone.emit("success", file, "data", null);
+          onImageUploaded(data);
+
         },
         failure: function(msg) {
-          window.imgurDropzone.emit("error", file, "data", null);
-          console.log(msg);
+          imgurDropzone.emit("error", file, "data", null);
+          onImageError(msg);
         }
       });
     };
@@ -47,12 +49,10 @@ module.exports = function() {
   };
 
   $("#upload-all").click(function (e) {
-    var files = window.imgurDropzone.getQueuedFiles();
+    var files = imgurDropzone.getQueuedFiles();
     for(var i=0; i<files.length; i++) {
       uploadToImgur(files[i]);
     }
   });
 
-  //console.log(myDropzone);
-  return "drag & drop";
 };
