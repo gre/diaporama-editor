@@ -6,9 +6,9 @@ var imgurDropzone;
 Dropzone.options.dropzone = { // The camelized version of the ID of the form element
   autoProcessQueue: false, /* we want to handle uploads ourselves */
   uploadMultiple: true,
-  parallelUploads: 25,
+  parallelUploads: 5,
   addRemoveLinks: true,
-  maxFiles: 25,
+  maxFiles: 40,
   /* The setting up of the dropzone */
   init: function() {
     imgurDropzone = this;
