@@ -22,6 +22,7 @@
     "watchify": "^1.0.6"
   },
   "dependencies": {
+    "bezier-easing": "^0.4.3",
     "glsl-transition": "^0.6.6",
     "glsl-transitions": "^2014.9.26"
   }
