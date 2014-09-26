@@ -14,7 +14,7 @@ object Application extends Controller {
   def store = Action.async(parse.json) { implicit req =>
     asJsObjectOrFail(req.body) { json =>
       Document.store(json) map { doc =>
-        Ok(Json.toJson(doc))
+        Ok(Json.obj("id" -> doc.id))
       }
     }
   }
@@ -22,7 +22,7 @@ object Application extends Controller {
   def update(id: String) = Action.async(parse.json) { implicit req =>
     asJsObjectOrFail(req.body) { json =>
       Document.update(Document.ID(id), json) map {
-        case Some(doc) => Ok(Json.toJson(doc))
+        case Some(doc) => Ok(Json.obj("id" -> doc.id))
         case None => NotFound(Json.obj("error" -> s"id '$id' not found"))
       }
     }
@@ -48,8 +48,9 @@ object Application extends Controller {
     }
   }
 
+  implicit val documentIdWrites = Writes[Document.ID] { id => JsString(id.intern) }
   implicit val documentWrites = Writes[Document] { doc =>
-    doc.json ++ Json.obj("id" -> doc.id.intern)
+    doc.json ++ Json.obj("id" -> doc.id)
   }
 
 }
