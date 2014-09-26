@@ -59,6 +59,13 @@ else {
   })
   .then(function (diaporama) {
 
+    if (diaporama.id) {
+      $("#view-diaporama").attr("href", "/?viewer="+diaporama.id);
+    }
+    else {
+      $("#view-diaporama").remove();
+    }
+
     renderTimeline(diaporama.timeline);
 
     // Here is the editor code
@@ -93,6 +100,7 @@ else {
           window.location.href = "/?edit="+result.id;
         });
     });
+
   })
   .done();
 
