@@ -12,8 +12,14 @@ var saveSlideshowServerUrl = process.env.SERVER;
 if (url.query.viewer) {
   // HERE is the viewer code
   var id = url.query.viewer;
-  // replace with Qajax(...)
-  Q(require("../format-example1.json"))
+
+  Qajax({
+    url: saveSlideshowServerUrl + "/json/" + id,
+    method: "GET"
+  })
+    .then(Qajax.filterSuccess)
+    .then(Qajax.toJSON)
+  // Q(require("../format-example1.json"))
     .then(function (json) {
       var canvas = document.createElement("canvas");
       canvas.width = window.innerWidth;
