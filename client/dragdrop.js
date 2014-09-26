@@ -23,7 +23,7 @@ module.exports = function (onImageUploaded, onImageError) {
     FR.onload = function(e) {
       var imgurUrl            = "https://api.imgur.com/3/image";
       var imgurAuthorization  = 'Client-ID e44fba7377de423';
-      var image               = e.target.result.replace(/^data:image\/(png|jpg);base64,/, "");
+      var image               = e.target.result.replace(/^data:image\/(png|jpg|gif|jpeg);base64,/, "");
       $.ajax({ 
         url: imgurUrl,
         headers: {
