@@ -1,0 +1,30 @@
+{
+  "music": "https://soundcloud.com/anjunabeats/oceanlab-satellite-ilan-bluestone-remix",
+  "loop": true,
+  "timeline": [
+    {
+      "image": "https://i.imgur.com/adCmISK.jpg",
+      "duration": 5000,
+      "transitionNext": {
+        "name": "cube",
+        "duration": 1000
+      }
+    },
+    {
+      "image": "https://i.imgur.com/AedZQ4N.jpg",
+      "duration": 5000,
+      "transitionNext": {
+        "name": "directionalwipe",
+        "duration": 1000,
+        "uniforms": {
+          "direction": [1, 0]
+        },
+        "easing": [0.00, 0.00, 0.58, 1.00]
+      }
+    },
+    {
+      "image": "https://i.imgur.com/adCmISK.jpg",
+      "duration": 5000
+    }
+  ]
+}

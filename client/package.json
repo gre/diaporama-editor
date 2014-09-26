@@ -1,0 +1,28 @@
+{
+  "name": "diaporama-client",
+  "version": "0.0.0",
+  "description": "Diaporama client (editor & viewer)",
+  "main": "index.js",
+  "scripts": {
+    "dev": "beefy index.js --live -- -t [ envify --NODE_ENV development --SERVER http://localhost:9000/ ]"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/glslio/diaporama"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/glslio/diaporama/issues"
+  },
+  "homepage": "https://github.com/glslio/diaporama",
+  "devDependencies": {
+    "beefy": "^2.1.1",
+    "envify": "^3.0.0",
+    "watchify": "^1.0.6"
+  },
+  "dependencies": {
+    "glsl-transition": "^0.6.6",
+    "glsl-transitions": "^2014.9.26"
+  }
+}
