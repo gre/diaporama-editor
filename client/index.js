@@ -50,16 +50,17 @@ else {
   }
   dragdrop(onImageUploaded, onImageError);
 
-  $("#create-button").click(function () {
+  $("#create-diaporama").click(function () {
+    console.log("CLICKED");
     Qajax({
+      url: saveSlideshowServerUrl + "/json",
       method: "POST",
-      url: url + "/json",
       data: diaporama
     })
       .then(Qajax.filterSuccess)
       .then(Qajax.toJSON)
       .then(function (result) {
-        console.log(result);
+        window.location.href = "/?viewer="+result.id;
       });
   });
 }

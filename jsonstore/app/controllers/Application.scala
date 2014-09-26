@@ -11,6 +11,8 @@ import models._
 
 object Application extends Controller {
 
+  def options = WithCORS(Action(Ok))
+
   def store = WithCORS {
     Action.async(jsonObjectParser) { implicit req =>
       Document.store(req.body) map { doc =>
@@ -42,7 +44,11 @@ object Application extends Controller {
   def WithCORS(action: => EssentialAction): EssentialAction = {
     EssentialAction { request =>
       action()(request) map { result =>
-        result withHeaders ("Access-Control-Allow-Origin" -> "*")
+        result withHeaders (
+          "Access-Control-Allow-Origin" -> "*",
+          "Access-Control-Allow-Headers" -> "content-type",
+          "Access-Control-Allow-Methods" -> "POST, GET, OPTIONS"
+        )
       }
     }
   }

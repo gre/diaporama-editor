@@ -3,6 +3,7 @@
 # ~~~~
 
 # Home page
+OPTIONS /json                       controllers.Application.options
 POST    /json                       controllers.Application.store
 POST    /json/:id                   controllers.Application.update(id)
 GET     /json/:id                   controllers.Application.get(id)

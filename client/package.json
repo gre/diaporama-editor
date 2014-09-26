@@ -4,7 +4,7 @@
   "description": "Diaporama client (editor & viewer)",
   "main": "index.js",
   "scripts": {
-    "dev": "beefy index.js --live -- -t [ envify --NODE_ENV development --SERVER http://localhost:9000/ ]"
+    "dev": "beefy index.js --live -- -t [ envify --NODE_ENV development --SERVER http://diaporama.appinnest.com ]"
   },
   "repository": {
     "type": "git",
