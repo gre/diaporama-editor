@@ -27,6 +27,7 @@ if (url.query.viewer) {
       document.body.innerHTML = "";
       document.body.style.padding = "0px";
       document.body.style.margin = "0px";
+      document.body.style.overflow = "hidden";
       document.body.appendChild(canvas);
       return new Viewer(json, canvas).start();
     })
