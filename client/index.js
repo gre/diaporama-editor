@@ -1,5 +1,5 @@
 var GlslTransition = require("glsl-transition");
-var GlslTransitions = require("glsl-transitions");
+var GlslTransitions = require("./SafeGlslTransitions");
 var Q = require("q");
 var $ = require("jquery");
 var Qajax = require("qajax");
