@@ -11,22 +11,19 @@ import models._
 
 object Application extends Controller {
 
-  def store = Action.async(parse.json) { implicit req =>
-    asJsObjectOrFail(req.body) { json =>
-      Document.store(json) map { doc =>
-        Ok(Json.obj("id" -> doc.id))
-      }
+  val jsonObjectParser = parse.json(__.read[JsObject])
+
+  def store = Action.async(jsonObjectParser) { implicit req =>
+    Document.store(req.body) map { doc =>
+      Ok(Json.obj("id" -> doc.id))
     }
   }
 
-  def update(id: String) = Action.async(parse.json) { implicit req =>
-    asJsObjectOrFail(req.body) { json =>
-      Document.update(Document.ID(id), json) map {
-        case Some(doc) => Ok(Json.obj("id" -> doc.id))
-        case None => NotFound(Json.obj("error" -> s"id '$id' not found"))
-      }
+  def update(id: String) = Action.async(jsonObjectParser) { implicit req =>
+    Document.update(Document.ID(id), req.body) map {
+      case Some(doc) => Ok(Json.obj("id" -> doc.id))
+      case None => NotFound(Json.obj("error" -> s"id '$id' not found"))
     }
-
   }
 
   def get(id: String) = Action.async { implicit req =>
@@ -36,17 +33,6 @@ object Application extends Controller {
     }
   }
 
-
-  def asJsObject: JsValue => Option[JsObject] = {
-    case o: JsObject => Some(o)
-    case _ => None
-  }
-  def asJsObjectOrFail(json: JsValue)(f: JsObject => Future[Result]): Future[Result] = {
-    asJsObject(json) match {
-      case Some(jsObj) => f(jsObj)
-      case None => Future successful { BadRequest(Json.obj("error" -> "bad content")) }
-    }
-  }
 
   implicit val documentIdWrites = Writes[Document.ID] { id => JsString(id.intern) }
   implicit val documentWrites = Writes[Document] { doc =>
