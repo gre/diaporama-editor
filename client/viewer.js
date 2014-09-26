@@ -4,6 +4,7 @@ var Qajax = require("qajax");
 var GlslTransition = require("glsl-transition");
 var GlslTransitions = require("glsl-transitions");
 var BezierEasing = require("bezier-easing");
+var Soundcloud = require("./soundcloud");
 
 function findTransitionByName (name) {
   for (var i=0; i<GlslTransitions.length; ++i) {
@@ -35,6 +36,7 @@ function Viewer (json, canvas) {
   this.T = GlslTransition(this.canvas);
   this.identity = this.T(GLSL_IDENTITY_FROM);
   this.images = {};
+  this.scPlayer = Soundcloud({client_id:'f23021b8249e5e28b152932b6fb5a256'});
   json.timeline.forEach(function (item) {
     var url = item.image;
     this.images[url] = Qimage.anonymously(url);
@@ -52,7 +54,7 @@ function Viewer (json, canvas) {
       }
     }
   }, this);
-  this._preloadAudio();
+  this._preloadAudio(json.music);
   console.log(json);
 }
 
@@ -107,14 +109,14 @@ Viewer.prototype = {
       return self.prepareNext();
     });
   },
-  _preloadAudio: function () {
-
+  _preloadAudio: function (url) {
+    this.scPlayer.load(url);
   },
   _startAudio: function () {
-
+    this.scPlayer.play();
   },
   _stopAudio: function () {
-
+    this.scPlayer.stop();
   }
 };
 
