@@ -1,22 +1,22 @@
 var Dropzone  = require("./lib/dropzone");
 var $         = require("jquery");
 
+var imgurDropzone;
+
+Dropzone.options.dropzone = { // The camelized version of the ID of the form element
+  autoProcessQueue: false, /* we want to handle uploads ourselves */
+  uploadMultiple: true,
+  parallelUploads: 25,
+  addRemoveLinks: true,
+  maxFiles: 25,
+  /* The setting up of the dropzone */
+  init: function() {
+    imgurDropzone = this;
+    window.imgurDropzone = this;
+  }
+};
+
 module.exports = function (onImageUploaded, onImageError) {
-
-  var imgurDropzone;
-
-  Dropzone.options.dropzone = { // The camelized version of the ID of the form element
-    autoProcessQueue: false, /* we want to handle uploads ourselves */
-    uploadMultiple: true,
-    parallelUploads: 25,
-    addRemoveLinks: true,
-    maxFiles: 25,
-    /* The setting up of the dropzone */
-    init: function() {
-      imgurDropzone = this;
-      window.imgurDropzone = this;
-    }
-  };
 
   var uploadToImgur = function(file) {
 

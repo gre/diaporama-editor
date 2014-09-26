@@ -14,10 +14,7 @@ if (url.query.viewer) {
   var id = url.query.viewer;
 
   document.body.innerHTML = "";
-  Qajax({
-    url: saveSlideshowServerUrl + "/json/" + id,
-    method: "GET"
-  })
+  Qajax(saveSlideshowServerUrl + "/json/" + id)
     .then(Qajax.filterSuccess)
     .then(Qajax.toJSON)
   // Q(require("../format-example1.json"))
@@ -34,42 +31,61 @@ if (url.query.viewer) {
     .done();
 }
 else {
-  var diaporama = {
-    loop: true,
-    music: "https://soundcloud.com/gonegirlsoundtrack/sugar-storm",
-    timeline: []
-  };
 
-  // Here is the editor code
-  function onImageUploaded (res) {
-    var item = {
-      image: res.data.link,
-      duration: 3000,
-      transitionNext: {
-        name: GlslTransitions[Math.floor(Math.random()*GlslTransitions.length)].name,
-        duration: 1500
-      }
-    };
-    diaporama.timeline.push(item);
-  }
-  function onImageError (err) {
-    console.log(err);
-  }
-  dragdrop(onImageUploaded, onImageError);
+  Q.fcall(function () {
 
-  $("#create-diaporama").click(function () {
-    console.log("CLICKED");
-    Qajax({
-      url: saveSlideshowServerUrl + "/json",
-      method: "POST",
-      data: diaporama
-    })
-      .then(Qajax.filterSuccess)
-      .then(Qajax.toJSON)
-      .then(function (result) {
-        window.location.href = "/?viewer="+result.id;
-      });
-  });
+    if (url.query.edit) {
+      return Qajax(saveSlideshowServerUrl + "/json/" + url.query.edit)
+        .then(Qajax.filterSuccess)
+        .then(Qajax.toJSON);
+    }
+    else {
+      return {
+        loop: true,
+        music: "https://soundcloud.com/gonegirlsoundtrack/sugar-storm",
+        timeline: []
+      };
+    }
+
+  })
+  .then(function (diaporama) {
+
+    console.log(diaporama);
+
+    // Here is the editor code
+    function onImageUploaded (res) {
+      var item = {
+        image: res.data.link,
+        duration: 3000,
+        transitionNext: {
+          name: GlslTransitions[Math.floor(Math.random()*GlslTransitions.length)].name,
+          duration: 1500
+        }
+      };
+      diaporama.timeline.push(item);
+    }
+    function onImageError (err) {
+      console.log(err);
+    }
+
+    dragdrop(onImageUploaded, onImageError);
+
+    $("#create-diaporama").click(function () {
+      console.log("CLICKED");
+      Qajax({
+        url: saveSlideshowServerUrl + "/json",
+        method: "POST",
+        data: diaporama
+      })
+        .then(Qajax.filterSuccess)
+        .then(Qajax.toJSON)
+        .then(function (result) {
+          window.location.href = "/?edit="+result.id;
+        });
+    });
+  })
+  .done();
+
 }
 
 
