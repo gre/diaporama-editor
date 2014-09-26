@@ -14,7 +14,14 @@ if (url.query.viewer) {
   // replace with Qajax(...)
   Q(require("../format-example1.json"))
     .then(function (json) {
-      return new Viewer(json).init();
+      var canvas = document.createElement("canvas");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      document.body.innerHTML = "";
+      document.body.style.padding = "0px";
+      document.body.style.margin = "0px";
+      document.body.appendChild(canvas);
+      return new Viewer(json, canvas).start();
     })
     .done();
 }
