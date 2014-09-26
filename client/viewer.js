@@ -62,18 +62,18 @@ Viewer.prototype = {
     var item = data.timeline[0];
     this._startAudio();
     return this.images[item.image]
-      .then(function (from) {
-        return self.identity({ from: from, to: from }, 100)
-      })
-      .delay(item.duration)
+      .then(this.displayImage.bind(this))
       .then(function () {
-        return self.next();
+        return self.prepareNext();
       });
   },
   end: function () {
     this._stopAudio();
   },
-  next: function () {
+  displayImage: function (img) {
+    return this.identity({ from: img, to: img }, 100);
+  },
+  prepareNext: function () {
     var self = this;
     var data = this.data;
     var from = this.cursor;
@@ -90,18 +90,19 @@ Viewer.prototype = {
     var transitionDuration = transitionNext && transitionNext.duration || 0;
     var transitionUniforms = transitionNext && transitionNext.uniforms || {};
 
-    console.log(transition);
-
     return Q.all([
       this.images[data.timeline[from].image],
       this.images[data.timeline[to].image]
     ])
-    .spread(function (fromImage, toImage) {
-      return transition.t(extend({ from: fromImage, to: toImage }, transitionUniforms, transition.uniforms), transitionDuration);
-    })
     .delay(itemDuration)
+    .spread(function (fromImage, toImage) {
+      if (transitionDuration)
+        return transition.t(extend({ from: fromImage, to: toImage }, transitionUniforms, transition.uniforms), transitionDuration);
+      else
+        return self.displayImage(toImage);
+    })
     .then(function () {
-      return self.next();
+      return self.prepareNext();
     });
   },
   _preloadAudio: function () {
