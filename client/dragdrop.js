@@ -9,10 +9,12 @@ module.exports = function (onImageUploaded, onImageError) {
     autoProcessQueue: false, /* we want to handle uploads ourselves */
     uploadMultiple: true,
     parallelUploads: 25,
+    addRemoveLinks: true,
     maxFiles: 25,
     /* The setting up of the dropzone */
     init: function() {
       imgurDropzone = this;
+      window.imgurDropzone = this;
     }
   };
 
