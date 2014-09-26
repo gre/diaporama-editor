@@ -60,7 +60,7 @@ else {
   .then(function (diaporama) {
 
     if (diaporama.id) {
-      $("#view-diaporama").attr("href", "/?viewer="+diaporama.id);
+      $("#view-diaporama").attr("href", location.pathname+"?viewer="+diaporama.id);
       $("#create-diaporama").text("Fork");
     }
     else {
@@ -98,7 +98,7 @@ else {
         .then(Qajax.filterSuccess)
         .then(Qajax.toJSON)
         .then(function (result) {
-          window.location.href = "/?edit="+result.id;
+          window.location.href = location.pathname+"?edit="+result.id;
         });
     });
 
