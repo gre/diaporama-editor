@@ -1,21 +1,21 @@
 {
-  "name": "diaporama-client",
+  "name": "diaporama-editor",
   "version": "0.0.0",
-  "description": "Diaporama client (editor & viewer)",
+  "description": "Diaporama editor & viewer",
   "main": "index.js",
   "scripts": {
-    "dev": "beefy index.js --live -- -t [ envify --NODE_ENV development --SERVER http://diaporama.appinnest.com ]"
+    "dev": "beefy index.js --live -- -t [ envify --NODE_ENV development --SERVER http://diaporama.appinnest.com --SOUNDCLOUD f23021b8249e5e28b152932b6fb5a256 ]"
   },
   "repository": {
     "type": "git",
-    "url": "http://github.com/glslio/diaporama"
+    "url": "http://github.com/glslio/diaporama-editor"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/glslio/diaporama/issues"
+    "url": "https://github.com/glslio/diaporama-editor/issues"
   },
-  "homepage": "https://github.com/glslio/diaporama",
+  "homepage": "https://github.com/glslio/diaporama-editor",
   "devDependencies": {
     "beefy": "^2.1.1",
     "envify": "^3.0.0",
@@ -30,6 +30,7 @@
     "jquery": "^2.1.1",
     "q": "^1.0.1",
     "qajax": "^0.2.4",
-    "qimage": "^1.2.0"
+    "qimage": "^1.2.0",
+    "diaporama": "^0.0.0"
   }
 }

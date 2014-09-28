@@ -4,7 +4,7 @@ var Q = require("q");
 var $ = require("jquery");
 var Qajax = require("qajax");
 var dragdrop = require("./dragdrop");
-var Viewer = require("./viewer");
+var Viewer = require("diaporama");
 var url = require("url").parse(window.location.href, true);
 
 var saveSlideshowServerUrl = process.env.SERVER;
@@ -26,7 +26,9 @@ if (url.query.viewer) {
       document.body.style.margin = "0px";
       document.body.style.overflow = "hidden";
       document.body.appendChild(canvas);
-      return new Viewer(json, canvas).start();
+      return new Viewer(json, canvas, {
+        soundcloudClientId: process.env.SOUNDCLOUD
+      }).start();
     })
     .done();
 }
